@@ -1,0 +1,14 @@
+package com.auction.auction_system.repository;
+
+import com.auction.auction_system.entity.TimeSlot;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.time.OffsetDateTime;
+import java.util.List;
+
+@Repository
+public interface TimeSlotRepository extends JpaRepository<TimeSlot, Long> {
+    List<TimeSlot> findByBookedFalseAndStartTimeAfter(OffsetDateTime now);
+}
+
