@@ -7,7 +7,8 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -18,6 +19,6 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
     Page<Auction> searchByKeyword(@Param("q") String q, Pageable p);
 
     @Query("select case when count(a)>0 then true else false end from Auction a where a.startTime < :end and a.endTime > :start")
-    boolean existsOverlapping(@Param("start") OffsetDateTime start, @Param("end") OffsetDateTime end);
+    boolean existsOverlapping(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }
 

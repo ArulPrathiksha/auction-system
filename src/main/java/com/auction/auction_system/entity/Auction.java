@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Entity
@@ -23,11 +24,18 @@ public class Auction {
     // store in smallest meaningful unit or use BigDecimal for accuracy
     private BigDecimal reservePrice;
 
-    @Column(nullable = false)
-    private OffsetDateTime startTime;
+    // TODO : Uncomment this later....
+    // @Column(nullable = false)
+    // private OffsetDateTime startTime;
+
+    // @Column(nullable = false)
+    // private OffsetDateTime endTime;
 
     @Column(nullable = false)
-    private OffsetDateTime endTime;
+    private LocalDateTime startTime;
+
+    @Column(nullable = false)
+    private LocalDateTime endTime;
 
     @Enumerated(EnumType.STRING)
     private AuctionStatus status;
@@ -71,19 +79,39 @@ public class Auction {
         this.reservePrice = reservePrice;
     }
 
-    public OffsetDateTime getStartTime() {
+    /*
+     * TODO : Uncomment it later...
+     * public OffsetDateTime getStartTime() {
+     * return startTime;
+     * }
+     * 
+     * public void setStartTime(OffsetDateTime startTime) {
+     * this.startTime = startTime;
+     * }
+     * 
+     * public OffsetDateTime getEndTime() {
+     * return endTime;
+     * }
+     * 
+     * public void setEndTime(OffsetDateTime endTime) {
+     * this.endTime = endTime;
+     * }
+     * 
+     */
+
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(OffsetDateTime startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public OffsetDateTime getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(OffsetDateTime endTime) {
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 

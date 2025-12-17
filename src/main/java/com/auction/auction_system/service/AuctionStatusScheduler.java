@@ -6,7 +6,7 @@ import com.auction.auction_system.repository.AuctionRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -23,7 +23,7 @@ public class AuctionStatusScheduler {
     // every 5 seconds (for dev/demo). Adjust interval as needed.
     @Scheduled(fixedDelay = 5000)
     public void checkStatuses() {
-        OffsetDateTime now = OffsetDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
 
         List<Auction> upcoming = auctionRepository.findByStatus(AuctionStatus.UPCOMING);
         for (Auction a : upcoming) {

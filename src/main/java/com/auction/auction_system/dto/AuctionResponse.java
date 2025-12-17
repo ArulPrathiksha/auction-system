@@ -3,20 +3,21 @@ package com.auction.auction_system.dto;
 import com.auction.auction_system.entity.AuctionStatus;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
+import java.time.LocalDateTime;
 
 public class AuctionResponse {
     private Long id;
     private String productName;
     private String description;
     private BigDecimal reservePrice;
-    private OffsetDateTime startTime;
-    private OffsetDateTime endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
     private AuctionStatus status;
     private BigDecimal currentHighestBid;
 
     public AuctionResponse(Long id, String productName, String description, BigDecimal reservePrice,
-                           OffsetDateTime startTime, OffsetDateTime endTime, AuctionStatus status,
+                           LocalDateTime startTime, LocalDateTime endTime, AuctionStatus status,
                            BigDecimal currentHighestBid) {
         this.id = id;
         this.productName = productName;
@@ -45,11 +46,11 @@ public class AuctionResponse {
         return reservePrice;
     }
 
-    public OffsetDateTime getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public OffsetDateTime getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 

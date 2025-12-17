@@ -2,7 +2,8 @@ package com.auction.auction_system.entity;
 
 import jakarta.persistence.*;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "time_slots", uniqueConstraints = {
@@ -14,10 +15,10 @@ public class TimeSlot {
     private Long id;
 
     @Column(name = "start_time", nullable = false)
-    private OffsetDateTime startTime;
+    private LocalDateTime startTime;
 
     @Column(name = "end_time", nullable = false)
-    private OffsetDateTime endTime;
+    private LocalDateTime endTime;
 
     private boolean booked = false;
 
@@ -33,19 +34,19 @@ public class TimeSlot {
         this.id = id;
     }
 
-    public OffsetDateTime getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(OffsetDateTime startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public OffsetDateTime getEndTime() {
+    public LocalDateTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(OffsetDateTime endTime) {
+    public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }
 

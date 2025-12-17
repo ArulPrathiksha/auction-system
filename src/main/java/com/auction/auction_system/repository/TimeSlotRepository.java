@@ -4,11 +4,12 @@ import com.auction.auction_system.entity.TimeSlot;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface TimeSlotRepository extends JpaRepository<TimeSlot, Long> {
-    List<TimeSlot> findByBookedFalseAndStartTimeAfter(OffsetDateTime now);
+    List<TimeSlot> findByBookedFalseAndStartTimeAfter(LocalDateTime now);
 }
 

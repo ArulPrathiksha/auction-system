@@ -3,7 +3,7 @@ package com.auction.auction_system.entity;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "bids")
@@ -18,7 +18,7 @@ public class Bid {
     @Column(nullable = false)
     private BigDecimal amount;
 
-    private OffsetDateTime placedAt;
+    private LocalDateTime placedAt;
 
     public Long getId() {
         return id;
@@ -52,11 +52,11 @@ public class Bid {
         this.amount = amount;
     }
 
-    public OffsetDateTime getPlacedAt() {
+    public LocalDateTime getPlacedAt() {
         return placedAt;
     }
 
-    public void setPlacedAt(OffsetDateTime placedAt) {
+    public void setPlacedAt(LocalDateTime placedAt) {
         this.placedAt = placedAt;
     }
 }

@@ -5,7 +5,7 @@ import com.auction.auction_system.repository.TimeSlotRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -17,7 +17,7 @@ public class SlotService {
     }
 
     public List<TimeSlot> getAvailableSlots() {
-        return repo.findByBookedFalseAndStartTimeAfter(OffsetDateTime.now());
+        return repo.findByBookedFalseAndStartTimeAfter(LocalDateTime.now());
     }
 
     @Transactional

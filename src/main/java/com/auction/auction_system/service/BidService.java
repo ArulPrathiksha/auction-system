@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -48,14 +48,14 @@ public class BidService {
         bid.setAuctionId(auctionId);
         bid.setUserId(userId);
         bid.setAmount(amount);
-        bid.setPlacedAt(OffsetDateTime.now());
+        bid.setPlacedAt(LocalDateTime.now());
         Bid saved = bidRepo.save(bid);
 
         // update auction highest bid (optimistic locking will help)
         a.setCurrentHighestBid(amount);
 
         // anti-sniping: extend auction by 30 sec if bid in last 10s
-        long secondsLeft = java.time.Duration.between(OffsetDateTime.now(), a.getEndTime()).getSeconds();
+        long secondsLeft = java.time.Duration.between(LocalDateTime.now(), a.getEndTime()).getSeconds();
         if (secondsLeft >= 0 && secondsLeft <= 10) {
             a.setEndTime(a.getEndTime().plusSeconds(30));
         }
