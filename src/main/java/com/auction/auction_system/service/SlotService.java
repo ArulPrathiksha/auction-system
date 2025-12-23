@@ -16,14 +16,36 @@ public class SlotService {
         this.repo = repo;
     }
 
+    // Get available slots that are not booked and have a start time in the future
     public List<TimeSlot> getAvailableSlots() {
         return repo.findByBookedFalseAndStartTimeAfter(LocalDateTime.now());
     }
 
     @Transactional
     public TimeSlot createSlot(TimeSlot slot) {
-        // Could add overlap check for slots here
+        // Check for overlapping slots before saving the new one
+        if (isOverlapping(slot)) {
+            throw new IllegalArgumentException("Time slot overlaps with an existing slot");
+        }
+
         return repo.save(slot);
+    }
+
+    // Method to check if the new slot overlaps with any existing ones
+    private boolean isOverlapping(TimeSlot newSlot) {
+        LocalDateTime newStartTime = newSlot.getStartTime();
+        LocalDateTime newEndTime = newSlot.getEndTime();
+
+        // Fetch all existing slots that are not booked
+        List<TimeSlot> existingSlots = repo.findByBookedFalseAndStartTimeAfter(LocalDateTime.now());
+
+        for (TimeSlot existingSlot : existingSlots) {
+            // Check for overlap: if the new slot's time range intersects with any existing slot's time range
+            if (newStartTime.isBefore(existingSlot.getEndTime()) && newEndTime.isAfter(existingSlot.getStartTime())) {
+                return true;  // Overlap found
+            }
+        }
+        return false;  // No overlap
     }
 
     public TimeSlot findById(Long id) {

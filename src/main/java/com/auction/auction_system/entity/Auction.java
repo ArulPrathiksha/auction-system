@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "auctions")
@@ -21,15 +20,7 @@ public class Auction {
     @Column(length = 2000)
     private String description;
 
-    // store in smallest meaningful unit or use BigDecimal for accuracy
     private BigDecimal reservePrice;
-
-    // TODO : Uncomment this later....
-    // @Column(nullable = false)
-    // private OffsetDateTime startTime;
-
-    // @Column(nullable = false)
-    // private OffsetDateTime endTime;
 
     @Column(nullable = false)
     private LocalDateTime startTime;
@@ -40,13 +31,15 @@ public class Auction {
     @Enumerated(EnumType.STRING)
     private AuctionStatus status;
 
-    // cached current highest bid amount (not sole source of truth)
     private BigDecimal currentHighestBid;
+
+    // Store the userId of the winner
+    private Long winnerUserId;
 
     @Version
     private Long version;
 
-    // getters/setters
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -79,26 +72,6 @@ public class Auction {
         this.reservePrice = reservePrice;
     }
 
-    /*
-     * TODO : Uncomment it later...
-     * public OffsetDateTime getStartTime() {
-     * return startTime;
-     * }
-     * 
-     * public void setStartTime(OffsetDateTime startTime) {
-     * this.startTime = startTime;
-     * }
-     * 
-     * public OffsetDateTime getEndTime() {
-     * return endTime;
-     * }
-     * 
-     * public void setEndTime(OffsetDateTime endTime) {
-     * this.endTime = endTime;
-     * }
-     * 
-     */
-
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -129,6 +102,14 @@ public class Auction {
 
     public void setCurrentHighestBid(BigDecimal currentHighestBid) {
         this.currentHighestBid = currentHighestBid;
+    }
+
+    public Long getWinnerUserId() {
+        return winnerUserId;
+    }
+
+    public void setWinnerUserId(Long winnerUserId) {
+        this.winnerUserId = winnerUserId;
     }
 
     public Long getVersion() {

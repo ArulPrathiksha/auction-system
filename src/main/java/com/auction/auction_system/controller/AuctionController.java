@@ -54,6 +54,17 @@ public class AuctionController {
         }
     }
 
+    // Endpoint to get the winner of an auction (userId)
+    @GetMapping("/{id}/winner")
+    public ResponseEntity<?> getWinner(@PathVariable Long id) {
+        Auction auction = auctionService.getById(id);
+        if (auction.getStatus() == com.auction.auction_system.entity.AuctionStatus.ENDED && auction.getWinnerUserId() != null) {
+            return ResponseEntity.ok("Winner User ID: " + auction.getWinnerUserId());
+        } else {
+            return ResponseEntity.status(400).body("Auction not ended or no winner yet");
+        }
+    }
+    
     private AuctionResponse toResp(Auction a) {
         return new AuctionResponse(a.getId(), a.getProductName(), a.getDescription(), a.getReservePrice(),
                 a.getStartTime(), a.getEndTime(), a.getStatus(), a.getCurrentHighestBid());

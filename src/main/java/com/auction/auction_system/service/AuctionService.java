@@ -1,10 +1,13 @@
+
 package com.auction.auction_system.service;
 
 import com.auction.auction_system.dto.AuctionRequest;
 import com.auction.auction_system.entity.Auction;
 import com.auction.auction_system.entity.AuctionStatus;
+import com.auction.auction_system.entity.Bid;
 import com.auction.auction_system.entity.TimeSlot;
 import com.auction.auction_system.repository.AuctionRepository;
+import com.auction.auction_system.repository.BidRepository;
 import com.auction.auction_system.repository.TimeSlotRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +20,12 @@ public class AuctionService {
 
     private final AuctionRepository auctionRepository;
     private final TimeSlotRepository timeSlotRepository;
+    private final BidRepository bidRepository;
 
-    public AuctionService(AuctionRepository auctionRepository, TimeSlotRepository timeSlotRepository) {
+    public AuctionService(AuctionRepository auctionRepository, TimeSlotRepository timeSlotRepository , BidRepository bidRepository) {
         this.auctionRepository = auctionRepository;
         this.timeSlotRepository = timeSlotRepository;
+        this.bidRepository = bidRepository;
     }
 
     @Transactional
@@ -77,10 +82,24 @@ public class AuctionService {
     }
 
     @Transactional
-    public void markEnded(Auction a) {
-        if (a.getStatus() == AuctionStatus.LIVE) {
-            a.setStatus(AuctionStatus.ENDED);
-            auctionRepository.save(a);
+    public void markEnded(Auction auction) {
+        if (auction.getStatus() == com.auction.auction_system.entity.AuctionStatus.LIVE) {
+            auction.setStatus(com.auction.auction_system.entity.AuctionStatus.ENDED);
+
+            // Get all bids for the auction and determine the highest bid
+            List<Bid> bids = bidRepository.findByAuctionId(auction.getId());
+            Bid highestBid = bids.stream()
+                    .max((b1, b2) -> b1.getAmount().compareTo(b2.getAmount()))
+                    .orElse(null);
+
+            if (highestBid != null) {
+                // Set the userId of the highest bid as the winner
+                auction.setWinnerUserId(highestBid.getUserId());
+                auction.setCurrentHighestBid(highestBid.getAmount());
+            }
+
+            auctionRepository.save(auction);
         }
     }
 }
+
